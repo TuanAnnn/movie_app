@@ -12,18 +12,22 @@ import { styles } from "../theme";
 import { useNavigation } from "@react-navigation/native";
 
 var { width, height } = Dimensions.get("window");
-export default function MovieList({ title, data }) {
+export default function MovieList({ title, data,hideSeeAll }) {
   let movieName = "Ant-man and the Wasp: Quantumania";
   const navigation = useNavigation();
   return (
     <View className="mb-8 space-y-4">
       <View className="mx-4 flex-row justify-between items-center">
         <Text className="text-white text-xl">{title}</Text>
-        <TouchableOpacity>
-          <Text style={styles.text} className="text-lg">
-            See All
-          </Text>
-        </TouchableOpacity>
+        {
+          !hideSeeAll && (
+            <TouchableOpacity>
+            <Text style={styles.text} className="text-lg">
+              See All
+            </Text>
+          </TouchableOpacity>
+          )
+        }
       </View>
       {/*movies row*/}
       <ScrollView
@@ -36,7 +40,7 @@ export default function MovieList({ title, data }) {
             <TouchableWithoutFeedback
               key={index}
               onPress={() => {
-                navigation.navigate("Movie", item);
+                navigation.push("Movie", item);
               }}
             >
               <View className="space-y-1 mr-4">
