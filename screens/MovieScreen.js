@@ -89,7 +89,7 @@ export default function MovieScreen() {
 
 
     {/* Cast */}
-    <Cast cast={cast}/>
+    <Cast cast={cast} navigation={navigation}/>
 
     {/* similar movie */}
     <MovieList title='Similar Movies' hideSeeAll={true} data={similarMovies}></MovieList>
