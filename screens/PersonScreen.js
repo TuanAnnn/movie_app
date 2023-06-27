@@ -4,7 +4,6 @@ import {
   Dimensions,
   ScrollView,
   Platform,
-  SafeAreaView,
   TouchableOpacity,
   Image,
 } from "react-native";
@@ -14,6 +13,7 @@ import { HeartIcon } from "react-native-heroicons/solid";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "../theme";
 import MovieList from '../components/movieList'
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 var { width, height } = Dimensions.get("window");
 const ios = Platform.OS == "ios";

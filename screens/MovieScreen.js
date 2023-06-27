@@ -1,5 +1,6 @@
-import { View, Text, ScrollView, SafeAreaView, TouchableOpacity, Platform,Dimensions,Image } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, Platform,Dimensions,Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation, useRoute } from '@react-navigation/native'
 import {ChevronLeftIcon} from 'react-native-heroicons/outline'
 import {HeartIcon} from 'react-native-heroicons/solid'
