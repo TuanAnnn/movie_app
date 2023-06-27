@@ -7,23 +7,47 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ChevronLeftIcon } from "react-native-heroicons/outline";
 import { HeartIcon } from "react-native-heroicons/solid";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { styles } from "../theme";
 import MovieList from '../components/movieList'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Loading from "../components/loading";
+import { fallbackPersonImage, fetchPersonDetails, fetchPersonMovies, image185, image342, image500 } from "../api/moviedb";
 
 var { width, height } = Dimensions.get("window");
 const ios = Platform.OS == "ios";
 const verticalMargin = ios ? "" : "my-3";
 export default function PersonScreen() {
+  const {params: item} = useRoute()
   const navigation = useNavigation();
   const [isFavorite, toggleFavorite] = useState(false);
-  const [personMovies,setPersonMovies] = useState([1,2,3,4])
+  const [personMovies,setPersonMovies] = useState([])
+  const [person,setPerson] = useState([])
   const [loading,setLoading] = useState(false) 
+
+  const getPersonDetails=async(id)=>{
+    const data = await fetchPersonDetails(id)
+    setLoading(false)
+    if(data) setPerson(data)
+    //console.log("person info",data)
+  }
+  const getPersonMovies=async(id)=>{
+    const data = await fetchPersonMovies(id)
+    setLoading(false)
+    if(data && data?.cast) setPersonMovies(data?.cast)
+    console.log('person movies',data)
+  }
+
+
+  useEffect(()=>{
+    setLoading(true)
+    getPersonDetails(item.id)
+    getPersonMovies(item.id)
+  },[item])
+
   return (
     <ScrollView
       className="flex-1 bg-neutral-900"
@@ -65,52 +89,53 @@ export default function PersonScreen() {
         >
           <View className="items-center rounded-full overflow-hidden h-72 w-72 border-2 border-neutral-500">
             <Image
-              source={require("../assets/image/castImage2.png")}
+              // source={require("../assets/image/castImage2.png")}
+             // source={{uri: image342(person?.profile_path)}}
+              source={{uri: image342(person?.profile_path) || fallbackPersonImage}}
               style={{ height: height * 0.43, width: width * 0.74 }}
             ></Image>
           </View>
         </View>
         <View className="mt-6">
           <Text className="text-3xl text-white font-bold text-center">
-            Keanu Reeves
+            {person?.name}
           </Text>
           <Text className="text-base text-neutral-500 text-center">
-            London, United Kingdom
+            {person?.place_of_birth}
           </Text>
         </View>
         <View className="mx-2 p-4 mt-6 flex-row justify-between items-center bg-neutral-700 rounded-full">
           <View className="border-r-2 border-r-neutral-400 px-2 items-center">
             <Text className="text-white font-semibold">Gender</Text>
-            <Text className="text-neutral-300 text-sm">Male</Text>
+            <Text className="text-neutral-300 text-sm">
+              {
+              person?.gender == 1?'Female':'Male'
+            }
+            </Text>
           </View>
           <View className="border-r-2 border-r-neutral-400 px-2 items-center">
             <Text className="text-white font-semibold">Birday</Text>
-            <Text className="text-neutral-300 text-sm">1964-09-02</Text>
+            <Text className="text-neutral-300 text-sm">{person?.birthday}</Text>
           </View>
           <View className="border-r-2 border-r-neutral-400 px-2 items-center">
             <Text className="text-white font-semibold">Nkown for</Text>
-            <Text className="text-neutral-300 text-sm">Acting</Text>
+            <Text className="text-neutral-300 text-sm">{person?.known_for_department}</Text>
           </View>
           <View className="px-2 items-center">
             <Text className="text-white font-semibold">Porpularity</Text>
-            <Text className="text-neutral-300 text-sm">64.23</Text>
+            <Text className="text-neutral-300 text-sm">{person?.popularity?.toFixed(2)} %</Text>
           </View>
         </View>
         <View className="my-6 mx-4 space-y-2">
           <Text className="text-white text-lg">Biography</Text>
           <Text className="text-neutral-400 tracking-wide">
-            today we are going to make a fully functional & responsive movie app
-            with react native using moviedb api, In this project you can browse
-            trending, upcoming and top rated movies, you can see the details of
-            a movie and the cast person, and you can even search any movie you
-            want plus many more cool features. after this video you will be able
-            to create professional apps like this one. so sit back and relax,
-            grab some snacks and enjoy the tutorial. make sure you like this
-            video and subscribe the channel for more react native videos.
+           {
+            person?.biography || "N/A"
+           }
           </Text>
         </View>
         {/* movies */}
-        <MovieList title="Movies" hideSeeAll={true} data={personMovies}></MovieList>
+        <MovieList title={"Movies" }hideSeeAll={true} data={personMovies}></MovieList>
       </View>
         )
       }

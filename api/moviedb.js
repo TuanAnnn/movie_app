@@ -9,10 +9,14 @@ const trendingMoviesEndpoint = `${apiBaseUrl}/trending/movie/day?api_key=${apiKe
 const upcomingMoviesEndpoint = `${apiBaseUrl}/movie/upcoming?api_key=${apiKey}`;
 const topRatedMoviesEndpoint = `${apiBaseUrl}/movie/top_rated?api_key=${apiKey}`;
 
-//dynamic endpoints
+//movie
 const movieDetailsEndpoint = id=> `${apiBaseUrl}/movie/${id}?api_key=${apiKey}`;
 const movieCreditsEndpoint = id=> `${apiBaseUrl}/movie/${id}/credits?api_key=${apiKey}`;
 const similarMoviesEndpoint = id=> `${apiBaseUrl}/movie/${id}/similar?api_key=${apiKey}`;
+
+// person
+const personDetailsEndpoint = id=> `${apiBaseUrl}/person/${id}?api_key=${apiKey}`;
+const personMoviesEndpoint = id=> `${apiBaseUrl}/person/${id}/movie_credits?api_key=${apiKey}`;
 
 
 // functions to get images of different widths, (show images using these to improve the loading times)
@@ -40,7 +44,7 @@ const apiCall = async (endpoint, params)=>{
         return {};
     }
 }
-
+// movie trend, upcoming,top rated
 export const fetchTrendingMovies = ()=>{
     return apiCall(trendingMoviesEndpoint);
 }
@@ -50,6 +54,7 @@ export const fetchUpcomingMovies = ()=>{
 export const fetchTopRatedMovies = ()=>{
     return apiCall(topRatedMoviesEndpoint);
 }
+//movie detail
 export const fetchMovieDetails = (id)=>{
     return apiCall(movieDetailsEndpoint(id))
 }
@@ -58,4 +63,12 @@ export const fetchMovieCredits = (id)=>{
 }
 export const fetchMovieSimilar = (id)=>{
     return apiCall(similarMoviesEndpoint(id))
+}
+
+// person screen apis
+export const fetchPersonDetails = (personId)=>{
+    return apiCall(personDetailsEndpoint(personId));
+}
+export const fetchPersonMovies = (personId)=>{
+    return apiCall(personMoviesEndpoint(personId));
 }
