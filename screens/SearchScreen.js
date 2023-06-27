@@ -18,7 +18,7 @@ import Loading from "../components/loading";
 const { width, height } = Dimensions.get("window");
 export default function SearchScreen() {
   const navigation = useNavigation();
-  const [results, setResult] = useState([]);
+  const [results, setResult] = useState([1,2]);
   let movieName = "Ant-man and the Wasp: Quantumania";
   const [loading, setLoading] = useState(false);
   return (
