@@ -28,25 +28,25 @@ const HomeScreen = () => {
 
     const getTrendingMovies= async ()=>{
       const data =  await fetchTrendingMovies();
-      console.log('Trending',data)
-      if (data) {
-        setTrending(data)
+      //console.log('Trending',data)
+      if (data && data.results) {
+        setTrending(data.results)
       setLoading(false)
       }
     }
     const getUpcomingMovies= async ()=>{
       const data =  await fetchUpcomingMovies();
-      console.log('Upcoming',data)
-      if (data) {
-        setUpcoming(data)
+      //console.log('Upcoming',data)
+      if (data && data.results) {
+        setUpcoming(data.results)
       setLoading(false)
       }
     }
     const getTopRatedMovies= async ()=>{
       const data =  await fetchTopRatedMovies();
-      console.log('Top Rated',data)
-      if (data) {
-        setToprated(data)
+      //console.log('Top Rated',data)
+      if (data && data.results) {
+        setToprated(data.results)
       setLoading(false)
       }
     }

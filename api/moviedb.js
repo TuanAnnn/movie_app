@@ -9,6 +9,11 @@ const trendingMoviesEndpoint = `${apiBaseUrl}/trending/movie/day?api_key=${apiKe
 const upcomingMoviesEndpoint = `${apiBaseUrl}/movie/upcoming?api_key=${apiKey}`;
 const topRatedMoviesEndpoint = `${apiBaseUrl}/movie/top_rated?api_key=${apiKey}`;
 
+//dynamic endpoints
+const movieDetailsEndpoint = id=> `${apiBaseUrl}/movie/${id}?api_key=${apiKey}`;
+const movieCreditsEndpoint = id=> `${apiBaseUrl}/movie/${id}/credits?api_key=${apiKey}`;
+const similarMoviesEndpoint = id=> `${apiBaseUrl}/movie/${id}/similar?api_key=${apiKey}`;
+
 
 // functions to get images of different widths, (show images using these to improve the loading times)
 export const image500 = path=>path?`https://image.tmdb.org/t/p/w500${path}` : null
@@ -29,7 +34,7 @@ const apiCall = async (endpoint, params)=>{
 
     try{
         const response = await axios.request(options);
-        return response.data.results;
+        return response.data;
     }catch(error){
         console.log('error: ',error);
         return {};
@@ -44,4 +49,13 @@ export const fetchUpcomingMovies = ()=>{
 }
 export const fetchTopRatedMovies = ()=>{
     return apiCall(topRatedMoviesEndpoint);
+}
+export const fetchMovieDetails = (id)=>{
+    return apiCall(movieDetailsEndpoint(id))
+}
+export const fetchMovieCredits = (id)=>{
+    return apiCall(movieCreditsEndpoint(id))
+}
+export const fetchMovieSimilar = (id)=>{
+    return apiCall(similarMoviesEndpoint(id))
 }
