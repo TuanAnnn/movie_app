@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { Bars3CenterLeftIcon,MagnifyingGlassIcon } from "react-native-heroicons/outline";
@@ -15,15 +15,47 @@ import TrendingMovies from "../components/trendingMovies";
 import MovieList from "../components/movieList";
 import { useNavigation } from "@react-navigation/native";
 import Loading from "../components/loading";
+import { fetchTopRatedMovies, fetchTrendingMovies, fetchUpcomingMovies } from "../api/moviedb";
 
 const ios = Platform.OS == "ios";
 
 const HomeScreen = () => {
-    const [trending,setTrending] = useState([1,2,3])
-    const [upcoming,setUpcoming] = useState([1,2,3])
-    const [topRated,setToprated] = useState([1,2,3])
-    const [loading,setLoading] = useState(false) 
+    const [trending,setTrending] = useState([])
+    const [upcoming,setUpcoming] = useState([])
+    const [topRated,setToprated] = useState([])
+    const [loading,setLoading] = useState(true) 
     const navigation = useNavigation()
+
+    const getTrendingMovies= async ()=>{
+      const data =  await fetchTrendingMovies();
+      console.log('Trending',data)
+      if (data) {
+        setTrending(data)
+      setLoading(false)
+      }
+    }
+    const getUpcomingMovies= async ()=>{
+      const data =  await fetchUpcomingMovies();
+      console.log('Upcoming',data)
+      if (data) {
+        setUpcoming(data)
+      setLoading(false)
+      }
+    }
+    const getTopRatedMovies= async ()=>{
+      const data =  await fetchTopRatedMovies();
+      console.log('Top Rated',data)
+      if (data) {
+        setToprated(data)
+      setLoading(false)
+      }
+    }
+
+    useEffect(()=>{
+      getTrendingMovies();
+      getUpcomingMovies();
+      getTopRatedMovies();
+    },[])
   return (
     <View className="flex-1 bg-neutral-800">
         {/* Search bar and logo*/}
@@ -52,7 +84,7 @@ const HomeScreen = () => {
       >
 
         {/* Trending movies carousel */}
-        <TrendingMovies data={trending}></TrendingMovies>
+        {trending.length>0 && <TrendingMovies data={trending}></TrendingMovies>}
 
         {/* upcoming movies carousel */}
         <MovieList title='Upcoming' data={upcoming}></MovieList>
