@@ -13,6 +13,7 @@ import { Bars3CenterLeftIcon,MagnifyingGlassIcon } from "react-native-heroicons/
 import {styles} from '../theme/index'
 import TrendingMovies from "../components/trendingMovies";
 import MovieList from "../components/movieList";
+import { useNavigation } from "@react-navigation/native";
 
 const ios = Platform.OS == "ios";
 
@@ -20,6 +21,7 @@ const HomeScreen = () => {
     const [trending,setTrending] = useState([1,2,3])
     const [upcoming,setUpcoming] = useState([1,2,3])
     const [topRated,setToprated] = useState([1,2,3])
+    const navigation = useNavigation()
   return (
     <View className="flex-1 bg-neutral-800">
         {/* Search bar and logo*/}
@@ -33,7 +35,7 @@ const HomeScreen = () => {
           ></Bars3CenterLeftIcon>
           <Text className="text-white text-3xl font-bold">
             <Text style={styles.text}>M</Text>ovie</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=>navigation.navigate('Search')}>
             <MagnifyingGlassIcon size={30} strokeWidth={2} color='white'></MagnifyingGlassIcon>
           </TouchableOpacity>
         </View>
