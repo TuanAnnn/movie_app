@@ -14,6 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import { styles } from "../theme";
 import MovieList from '../components/movieList'
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Loading from "../components/loading";
 
 var { width, height } = Dimensions.get("window");
 const ios = Platform.OS == "ios";
@@ -22,6 +23,7 @@ export default function PersonScreen() {
   const navigation = useNavigation();
   const [isFavorite, toggleFavorite] = useState(false);
   const [personMovies,setPersonMovies] = useState([1,2,3,4])
+  const [loading,setLoading] = useState(false) 
   return (
     <ScrollView
       className="flex-1 bg-neutral-900"
@@ -47,7 +49,11 @@ export default function PersonScreen() {
       </SafeAreaView>
 
       {/* person details */}
-      <View>
+      {
+        loading?(
+          <Loading/>
+        ):(
+          <View>
         <View
           className="flex-row justify-center"
           style={{
@@ -106,6 +112,8 @@ export default function PersonScreen() {
         {/* movies */}
         <MovieList title="Movies" hideSeeAll={true} data={personMovies}></MovieList>
       </View>
+        )
+      }
     </ScrollView>
   );
 }
