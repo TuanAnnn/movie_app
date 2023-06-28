@@ -53,7 +53,7 @@ export default function MovieScreen() {
   };
   const getMovieSimilar = async (id) => {
     const data = await fetchMovieSimilar(id);
-    console.log('similar credit: ',data)
+    //console.log('similar credit: ',data)
     if (data && data?.results) setSimilarmovies(data?.results);
      setLoading(false);
   };

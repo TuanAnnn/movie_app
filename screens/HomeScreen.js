@@ -59,21 +59,6 @@ const HomeScreen = () => {
   return (
     <View className="flex-1 bg-neutral-800">
         {/* Search bar and logo*/}
-      <SafeAreaView className={ios ? "-mb2-" : "mb-3"}>
-        <StatusBar style="light"></StatusBar>
-        <View className="flex-row justify-between items-center mx-4">
-          <Bars3CenterLeftIcon
-            size={30}
-            strokeWidth={2}
-            color="white"
-          ></Bars3CenterLeftIcon>
-          <Text className="text-white text-3xl font-bold">
-            <Text style={styles.text}>M</Text>ovie</Text>
-          <TouchableOpacity onPress={()=>navigation.navigate('Search')}>
-            <MagnifyingGlassIcon size={30} strokeWidth={2} color='white'></MagnifyingGlassIcon>
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
       {
         loading?(
           <Loading/>
